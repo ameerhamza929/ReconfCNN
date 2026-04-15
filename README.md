@@ -1,5 +1,21 @@
 # ReconfCNN
-This project presents an FPGA-based user-configurable Convolutional Neural Network (CNN) accelerator implemented as a closed-loop system. The architecture is designed to efficiently execute convolution operations with flexible reconfigurability.
+This project presents an FPGA-based user-configurable Convolutional Neural Network (CNN) accelerator implemented as a closed-loop system. The architecture is designed to efficiently execute convolutional operations with high throughput and low latency.
+
+## Architecture/Design of Accelerator
+
+![Accelerator Architecture Diagram](https://github.com/ameerhamza929/ReconfCNN/raw/main/docs/architecture_diagram.png)
+
+The ReconfCNN accelerator is composed of several interconnected modules working in concert to perform efficient CNN inference. The diagram above illustrates the complete system architecture with the following key components:
+
+- **External Memory**: Stores input feature maps and weights
+- **Data Buffers**: Three dedicated buffers (Data_Buffer_0, Data_Buffer_1, Data_Buffer_2) each containing 16 memory banks for efficient parallel data access
+- **Controller**: FSM-based control unit managing data flow and coordination
+- **Convolution Engines (CE)**: Core computational units performing parallel convolution operations
+- **Super Convolution Engine (Super CE)**: Extended CE with activation and pooling capabilities
+- **Mask Generator**: Determines valid outputs based on kernel size and stride
+- **Valid Output Module**: Filters and validates results
+- **Weight Memory**: Stores and broadcasts kernel weights
+- **PISO (Parallel-In Serial-Out)**: Serializes output data for external memory
 
 ## Architecture Documentation
 
@@ -14,17 +30,17 @@ This combination enables each PE to efficiently compute a portion of the convolu
 
 ### Convolution Engine (CE)
 
-The Convolution Engine is the core computational block responsible for performing convolution operations. It is composed of an **8 × 8 array of Processing Elements (PEs)**, allowing parallel computation across multiple data points.
+The Convolution Engine is the core computational block responsible for performing convolution operations. It is composed of an **8 × 8 array of Processing Elements (PEs)**, allowing parallel computation of multiple convolution results simultaneously.
 
 To correctly perform convolution, the CE uses two key shifting mechanisms:
 
 #### Horizontal Shift (hor_shift)
 
-The horizontal shift ensures that values within the same row are properly aligned and accumulated. As input data moves horizontally across the PE array, each PE contributes to the accumulation of results corresponding to a sliding window over the input feature map. This shifting enables efficient reuse of data within rows and supports continuous streaming of inputs without recomputation.
+The horizontal shift ensures that values within the same row are properly aligned and accumulated. As input data moves horizontally across the PE array, each PE contributes to the accumulation of partial products for different output positions.
 
 #### Vertical Shift (ver_shift)
 
-The vertical shift ensures that values aligned across rows (i.e., elements belonging to the same kernel window vertically) are accumulated correctly. By shifting data vertically across the PE array, the engine combines contributions from different rows of the kernel.
+The vertical shift ensures that values aligned across rows (i.e., elements belonging to the same kernel window vertically) are accumulated correctly. By shifting data vertically across the PE array, the system processes different depth dimensions of the input.
 
 Together, horizontal and vertical shifts enable the CE to replicate the sliding window behavior of convolution, ensuring that all relevant input and kernel values are multiplied and accumulated correctly.
 
@@ -54,7 +70,7 @@ This mechanism enables efficient accumulation across channels without requiring 
 
 The Mask Generator identifies which outputs from the 8 × 8 PE array are valid.
 
-Due to varying kernel sizes and stride values, not all computed outputs correspond to valid convolution results. The Mask Generator generates a mask that flags valid positions based on the current configuration, ensuring only meaningful outputs are considered.
+Due to varying kernel sizes and stride values, not all computed outputs correspond to valid convolution results. The Mask Generator generates a mask that flags valid positions based on the current convolution parameters.
 
 ### Valid Data Module
 
@@ -75,7 +91,7 @@ The system contains:
 - **15 memory banks** per buffer
 - **32-bit width** per bank, allowing it to supply data to four PEs simultaneously (since each PE requires 16-bit FP16 inputs)
 
-The depth of each memory bank is configurable and depends on available FPGA resources and application requirements. This banked memory structure enables high bandwidth and parallel data access, which is critical for maintaining throughput in the accelerator.
+The depth of each memory bank is configurable and depends on available FPGA resources and application requirements. This banked memory structure enables high bandwidth and parallel data access, which is critical for maintaining the throughput of the PE arrays.
 
 ### Controller (FSM-Based)
 
@@ -88,7 +104,7 @@ Its responsibilities include:
 - **Coordinating** memory reads and writes
 - **Synchronizing** computation across all modules
 
-The controller is reconfigurable, meaning it can adapt to different convolution parameters such as kernel size, stride, and input dimensions. This flexibility allows the accelerator to support a wide range of CNN architectures without requiring hardware redesign.
+The controller is reconfigurable, meaning it can adapt to different convolution parameters such as kernel size, stride, and input dimensions. This flexibility allows the accelerator to support a wide variety of CNN architectures.
 
 ### Weight Memory
 
