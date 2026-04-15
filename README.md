@@ -16,7 +16,7 @@ This project implements a **closed-loop, FPGA-based Convolutional Neural Network
 ## Architecture Components
 
 <p align="center">
-  <img src="Images/Accelerator architecture.png" alt="Accelerator Architecture" width="600"/>
+  <img src="Images/Accelerator architecture.png" alt="Accelerator Architecture" width="800"/>
   <br>
   <em>Accelerator Architecture</em>
 </p>
@@ -152,4 +152,9 @@ Features:
 - Optimized memory bandwidth usage
 - Extensible to full CNN pipeline (Conv + Activation + Pooling)
 
+<p align="center">
+  <img src="Images/block diagram.png" alt="Accelerator Architecture" width="800"/>
+  <br>
+  <em>Accelerator Architecture</em>
+</p>
 ---
