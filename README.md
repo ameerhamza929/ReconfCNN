@@ -9,6 +9,12 @@ The architecture is highly **configurable**, allowing support for different kern
 
 ## Architecture Components
 
+<p align="center">
+  <img src="Images/Accelerator architecture.png" alt="Accelerator Architecture" width="600"/>
+  <br>
+  <em>Accelerator Architecture</em>
+</p>
+
 ### Processing Element (PE)
 The **Processing Element (PE)** is the fundamental computation unit.
 
