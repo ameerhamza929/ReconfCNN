@@ -8,7 +8,7 @@ This project implements a **closed-loop, FPGA-based Convolutional Neural Network
 <p align="center">
   <img src="Images/System_level_diagram.jpg" alt="System Level Diagram" width="800"/>
   <br>
-  <em>Accelerator Architecture</em>
+  <em>System Level Diagram</em>
 </p>
 
 ---
@@ -155,6 +155,6 @@ Features:
 <p align="center">
   <img src="Images/block diagram.png" alt="Vivado BLock Diagram" width="800"/>
   <br>
-  <em>Accelerator Architecture</em>
+  <em>Vivado BLock Diagram</em>
 </p>
 ---
