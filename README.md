@@ -153,7 +153,7 @@ Features:
 - Extensible to full CNN pipeline (Conv + Activation + Pooling)
 
 <p align="center">
-  <img src="Images/block diagram.png" alt="Accelerator Architecture" width="800"/>
+  <img src="Images/block diagram.png" alt="Vivado BLock Diagram" width="800"/>
   <br>
   <em>Accelerator Architecture</em>
 </p>
