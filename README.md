@@ -1,9 +1,15 @@
 # FPGA-Based User-Configurable CNN Accelerator
 
 ## Overview
+Object detection is a critical technology for autonomous systems, medical imaging, and defense applications. However, the deep learning models underpinning these systems impose high computational demands, creating a bottleneck for deployment on resource-constrained edge devices. Field Programmable Gate Arrays (FPGAs) offer a viable solution due to their massive parallelism, low latency, and energy efficiency. This work presents a user-configured FPGA accelerator architecture designed specifically for real-time YOLOv8n inference. The proposed architecture features an Input stationary architecture with weight broadcasting that handles convolution using three kinds of shift mechanism that dynamically reconfigures hardware resources to balance throughput and accumulation depth based on layer characteristics. Furthermore the design operates entirely on-chip, eliminating the need for off-chip memory accesses during computation and thereby minimizing latency and power consumption. Utilizing FP16 precision, the system enables direct deployment from high-level software APIs to the hardware fabric. While the underlying architecture remains fully scalable and feasible for the complete YOLOv8n model, resource constraints limit the current implementation. Therefore, as a proof of concept, this project executes the first few convolutional layers on the FPGA to demonstrate the accelerated speedup. Experimental results from these initial layers prove that this architecture successfully bridges the gap between high-performance object detection and the strict constraints of edge computing.
+
 This project implements a **closed-loop, FPGA-based Convolutional Neural Network (CNN) accelerator** designed to efficiently perform convolution operations while maximizing the utilization of FPGA **Programmable Logic (PL)**.
 
-The architecture is highly **configurable**, allowing support for different kernel sizes, strides, and input dimensions without requiring hardware redesign. It leverages parallelism, pipelining, and data reuse to achieve high performance.
+<p align="center">
+  <img src="Images/System_level_diagram.jpg" alt="System Level Diagram" width="800"/>
+  <br>
+  <em>Accelerator Architecture</em>
+</p>
 
 ---
 
